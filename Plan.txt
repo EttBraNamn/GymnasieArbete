@@ -1,0 +1,14 @@
+
+
+VAD BEHÖVER GÖRAS
+
+En karaktär som man kan styra åt de åtta hållen. Ska också kunna gå upp och ner mellan våningar.
+
+Texturer för mark, spelaren, vägg och någon form av dekoration.
+
+En betydligt mängd olika och unika rum.
+
+Ett sätt att med hjälp av Random klassen kunna klistra ihop rummen
+
+Göra specifika start och slut rum
+

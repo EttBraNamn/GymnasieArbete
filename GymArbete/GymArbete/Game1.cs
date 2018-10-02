@@ -9,6 +9,7 @@ namespace GymArbete
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        Main main;
 
         public Game1()
         {
@@ -18,7 +19,9 @@ namespace GymArbete
 
         protected override void Initialize()
         {
-       
+            Textures.Init(Content);
+            main = new Main();
+
             base.Initialize();
         }
 
@@ -44,7 +47,7 @@ namespace GymArbete
                 Exit();
 
        
-
+            
             base.Update(gameTime);
         }
 
@@ -53,7 +56,7 @@ namespace GymArbete
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-    
+            main.Draw(spriteBatch, gameTime);
 
             base.Draw(gameTime);
         }
