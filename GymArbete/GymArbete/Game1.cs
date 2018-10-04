@@ -5,6 +5,8 @@ using Microsoft.Xna.Framework.Input;
 namespace GymArbete
 {
 
+
+    public enum GameState { WorldMap}
     public class Game1 : Game
     {
         GraphicsDeviceManager graphics;
@@ -15,11 +17,13 @@ namespace GymArbete
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            graphics.PreferredBackBufferHeight = 720;
+            graphics.PreferredBackBufferWidth = 1280;
         }
 
         protected override void Initialize()
         {
-            Textures.Init(Content);
+            
             main = new Main();
 
             base.Initialize();
@@ -30,8 +34,8 @@ namespace GymArbete
         {
 
             spriteBatch = new SpriteBatch(GraphicsDevice);
+            Textures.Init(Content);
 
-       
         }
 
    
@@ -46,7 +50,7 @@ namespace GymArbete
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-       
+            main.Update(gameTime);
             
             base.Update(gameTime);
         }
@@ -54,7 +58,7 @@ namespace GymArbete
    
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Black);
 
             main.Draw(spriteBatch, gameTime);
 

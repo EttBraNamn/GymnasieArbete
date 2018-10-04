@@ -1,0 +1,7 @@
+
+Rummen ska ha en specifik storlek.
+
+Kan ha 1 2 3 eller 4 dörrar
+
+Rummets dimensioner är 21 x 13
+

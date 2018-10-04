@@ -20,7 +20,12 @@ namespace GymArbete
 
         }
 
-        public static Texture2D GetTexture(BlockType type)
+        public static Texture2D Player()
+        {
+            return player;
+        }
+
+        public static Texture2D Block(BlockType type)
         {
             switch (type)
             {

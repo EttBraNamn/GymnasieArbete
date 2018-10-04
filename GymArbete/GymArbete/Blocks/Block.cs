@@ -1,6 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 
 namespace GymArbete.Blocks
 {
@@ -27,8 +26,7 @@ namespace GymArbete.Blocks
         }
         public void Draw(SpriteBatch spriteBatch)
         {
-            Texture2D texture = Textures.GetTexture(type);
-
+            Texture2D texture = Textures.Block(type);
             if (texture != null)
             {
                 spriteBatch.Draw(texture, Position(), Color.White);
