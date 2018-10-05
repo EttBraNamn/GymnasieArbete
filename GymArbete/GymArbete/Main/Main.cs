@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
 using GymArbete.Blocks;
 using System;
+using GymArbete.WorldLoading;
 
 namespace GymArbete
 {
@@ -13,9 +14,11 @@ namespace GymArbete
         Dictionary<Vector2, Block> blocks;
         Player player;
         KeyboardState lastKey, key;
+        WorldMap map;
 
         public Main()
         {
+            map = new WorldMap(160, 90, 1);
             player = new Player(new Vector2(1, 1));
             blocks = new Dictionary<Vector2, Block>();
             Vector2 pos = new Vector2(0, 0);
@@ -58,6 +61,7 @@ namespace GymArbete
                 block.Value.Draw(spriteBatch);
             }
             player.Draw(spriteBatch);
+            spriteBatch.DrawString(Textures.Font(), Convert.ToString(map.GetValue(player.GetPosition() / 10)), new Vector2(25, 25), Color.White);
             spriteBatch.End();
         }
 

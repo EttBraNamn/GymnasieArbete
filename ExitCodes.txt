@@ -3,3 +3,5 @@ Kanske inte används men är bättre att vara säker
 
 
 -100 = Ett för stort eller för litet värde gavs till Perlin1D.Calculate(int)
+-101 = Worldmap gavs inte ett tal passar kravet x % 10 = 0
+-102 = Position request out of range
