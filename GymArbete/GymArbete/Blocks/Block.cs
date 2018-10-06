@@ -8,7 +8,12 @@ namespace GymArbete.Blocks
     {
         protected Vector2 position;
         protected BlockType type;
+        Color color;
 
+        public Block(float f)
+        {
+            color = new Color(0, f, 0.5f * f);
+        }
 
         private Vector2 Position()
         {
@@ -29,7 +34,7 @@ namespace GymArbete.Blocks
             Texture2D texture = Textures.Block(type);
             if (texture != null)
             {
-                spriteBatch.Draw(texture, Position(), Color.White);
+                spriteBatch.Draw(texture, Position(), color);
             }
         }
 

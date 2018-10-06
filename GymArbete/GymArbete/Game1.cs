@@ -50,6 +50,13 @@ namespace GymArbete
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
+
+            switch (main.gameState)
+            {
+                case GameState.WorldMap:
+                    main.WorldUpdate(gameTime);
+                    break;
+            }
             main.Update(gameTime);
             
             base.Update(gameTime);
@@ -60,8 +67,14 @@ namespace GymArbete
         {
             GraphicsDevice.Clear(Color.Black);
 
-            main.Draw(spriteBatch, gameTime);
+            switch (main.gameState)
+            {
+                case GameState.WorldMap:
+                    main.WorldDraw(spriteBatch, gameTime);
+                    break;
+            }
 
+            
             base.Draw(gameTime);
         }
     }

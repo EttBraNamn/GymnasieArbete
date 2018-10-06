@@ -11,67 +11,88 @@ namespace GymArbete
     class Main
     {
 
-        Dictionary<Vector2, Block> blocks;
         Player player;
         KeyboardState lastKey, key;
-        WorldMap map;
+        public GameState gameState;
 
         public Main()
         {
-            map = new WorldMap(160, 90, 1);
+            gameState = GameState.WorldMap;
+            map = new WorldMap(160, 90, 1001);
             player = new Player(new Vector2(1, 1));
-            blocks = new Dictionary<Vector2, Block>();
+            worldBlocks = new Dictionary<Vector2, Block>();
             Vector2 pos = new Vector2(0, 0);
-            for (int x = 0; x < 20; )
+            for (int x = 0; x < 160; ++x)
             {
-                pos.X = ++x;
-                for (int y = 0; y < 12;)
+                pos.X = x;
+                for (int y = 0; y < 90; ++y)
                 {
-                    pos.Y = ++y;
-                    blocks[pos] = new Floor(pos);
+                    pos.Y = y;
+                    worldBlocks[pos] = new Floor(pos, map.GetValue(pos / 10));
                 }
             }
 
-        }
-
-        public void Update(GameTime gameTime)
-        {
-            key = Keyboard.GetState();
-
-            player.Update(gameTime);
-            
-
-            Keys[] pressed = key.GetPressedKeys();
-
-            for (int i = 0; i != pressed.Length; ++i)
-            {
-                
-                CheckMovement(pressed[i]);
-            }
-            lastKey = Keyboard.GetState();
         }
 
         public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
 
 
+
+        }
+
+
+        public void Update(GameTime gameTime)
+        {
+            
+        }
+
+        /*<summary>
+        ##############################################
+        EVERYTHING RELATED TO THE WORLDMAP STARTS HERE
+        ##############################################
+        </summary*/
+        Dictionary<Vector2, Block> worldBlocks;
+        WorldMap map;
+
+
+        public void WorldUpdate(GameTime gameTime)
+        {
+            key = Keyboard.GetState();
+
+            player.Update(gameTime);
+
+
+            Keys[] pressed = key.GetPressedKeys();
+
+            for (int i = 0; i != pressed.Length; ++i)
+            {
+
+                CheckMovement(pressed[i]);
+            }
+            lastKey = Keyboard.GetState();
+        }
+
+        public void WorldDraw(SpriteBatch spriteBatch, GameTime gameTime)
+        {
             spriteBatch.Begin();
-            foreach(KeyValuePair<Vector2, Block> block in blocks)
+            foreach (KeyValuePair<Vector2, Block> block in worldBlocks)
             {
                 block.Value.Draw(spriteBatch);
             }
-            player.Draw(spriteBatch);
-            spriteBatch.DrawString(Textures.Font(), Convert.ToString(map.GetValue(player.GetPosition() / 10)), new Vector2(25, 25), Color.White);
+            player.WorldDraw(spriteBatch);
+            spriteBatch.DrawString(Textures.Font(), Convert.ToString(map.GetValue(player.GetWorldPosition() / 10)), new Vector2(25, 25), Color.White);
             spriteBatch.End();
         }
 
-        private bool PlayerMoveable(Vector2 position)
+        
+        private bool WorldPlayerMoveable(Vector2 position)
         {
            
-            if (!blocks.ContainsKey(position))
+            if (!worldBlocks.ContainsKey(position))
                 return false;
 
-            if (blocks[position].Type() == BlockType.Floor)
+            if (worldBlocks[position].Type() == BlockType.Floor)
                 return true;
 
             return false;
@@ -83,11 +104,18 @@ namespace GymArbete
         //Moves the player if it's allowed
         private void PlayerMove(Vector2 position)
         {
-            position += player.GetPosition();
-            if (PlayerMoveable(position) && !player.hasMoved)
+            switch (gameState)
             {
-                player.Move(position);
-            }
+                case GameState.WorldMap:
+                    position += player.GetWorldPosition();
+                    if (WorldPlayerMoveable(position) && !player.hasMoved)
+                    {
+                        player.WorldMove(position);
+                    }
+                    break;
+            
+        }
+            
         }
 
         //Checking if any of the movement keys have been pressed

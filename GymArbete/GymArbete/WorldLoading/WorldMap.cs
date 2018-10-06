@@ -1,23 +1,15 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GymArbete.WorldLoading
 {
     class WorldMap
     {
-        /*
-        Perlin1D x;
-        Perlin1D y;
-        */
-
+     
         private int sizeY, sizeX;
         Vector2[,] values;
 
-        public WorldMap(int sX, int sY,int seed = 0)
+        public WorldMap(int sX, int sY,int seed = 4)
         {
             sizeX = sX;
             sizeY = sY;
@@ -49,17 +41,11 @@ namespace GymArbete.WorldLoading
                     values[x, y] = new Vector2(RandValue(rng), RandValue(rng));
                 }
             }
-
-            /*
-            Randon rng = new Random(seed);
-
-            x = new Perlin1D(sizeX, rng);
-            y = new Perlin1D(sizeY, rng);
-            */
         }
 
         public float GetValue(Vector2 pos)
         {
+           
             if (pos.X < 0 || sizeX < pos.X)
             {
                 Environment.Exit(-102);
@@ -69,30 +55,29 @@ namespace GymArbete.WorldLoading
                 Environment.Exit(-102);
             }
 
-            int left = Convert.ToInt32(pos.X);
-            int up = Convert.ToInt32(pos.Y);
+            int left = (int)pos.X;
+            int up = (int)pos.Y;
 
-            float x = pos.X % 1;
-            float y = pos.Y % 1;
+            float x = pos.X - left;
+            float y = pos.Y - up;
 
 
-            Vector2 v00 = values[left, up] * new Vector2(x, y);
-            Vector2 v10 = values[left + 1, up] * new Vector2(1 - x, y);
+            Vector2 v00 = values[left, up] * new Vector2(1 - x, 1 - y);
+            Vector2 v10 = values[left + 1, up] * new Vector2(x, 1 - y);
 
-            Vector2 v01 = values[left, 1 + up] * new Vector2(x, 1- y);
-            Vector2 v11 = values[left + 1, 1+ up] * new Vector2(1 - x, 1 - y);
+            Vector2 v01 = values[left, 1 + up] * new Vector2(1 - x, y);
+            Vector2 v11 = values[left + 1, 1+ up] * new Vector2(x, y);
 
-            float n0 = Mix(CalcFunction(v00), x) + Mix(CalcFunction(v10), 1 - x);
+            float n0 = Mix(CalcFunction(v00),1 - x) + Mix(CalcFunction(v10), x);
 
-            return CalcFunction(v00);
-            float n1 = Mix(CalcFunction(v01), x) + Mix(CalcFunction(v11), 1 - x);
+            float n1 = Mix(CalcFunction(v01),1 - x) + Mix(CalcFunction(v11), x);
 
-            return Mix(n0, y) + Mix(n0, 1 - y);
+            return (Mix(n0, 1 - y) + Mix(n1, y));
         }
 
         private float CalcFunction(Vector2 value)
         {
-            return value.X * value.Y;
+            return  value.X *value.Y;
         }
 
         private float Mix(float value, float distance)
@@ -106,39 +91,9 @@ namespace GymArbete.WorldLoading
 
         private float RandValue(Random rng)
         {
-            int value = rng.Next(-100, 100);
+            float value = rng.Next(-100, 101);
             return value / 100;
         }
 
-        /*
-        public float GetValue(Vector2 position)
-        {
-            if (position.X < 0 || x.Size() < position.X)
-            {
-                Environment.Exit(-102);
-            }
-            if (position.Y < 0 || y.Size() < position.Y)
-            {
-                Environment.Exit(-102);
-            }
-
-            float xAxis = x.Calculate(position.X);
-            float yAxis = y.Calculate(position.Y);
-
-
-
-            float toReturn = Mix(xAxis, )
-            
-        }
-
-        private float Mix(float value, float distance)
-        {
-            // 6x^5 - 15x^4 + 10x^3 x = distance
-            float toReturn = 6 * distance * distance * distance * distance * distance;
-            toReturn -= 15 * distance * distance * distance * distance;
-            toReturn += 10 * distance * distance * distance;
-            return toReturn * value;
-        }
-        */
     }
 }

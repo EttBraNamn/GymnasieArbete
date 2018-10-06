@@ -10,7 +10,7 @@ namespace GymArbete.Blocks
     class Floor : Block
     {
 
-        public Floor(Vector2 pos)
+        public Floor(Vector2 pos, float f) : base(f)
         {
             type = BlockType.Floor;
             position = pos;
