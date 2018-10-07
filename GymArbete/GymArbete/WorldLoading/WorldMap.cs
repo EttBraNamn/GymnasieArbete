@@ -45,7 +45,7 @@ namespace GymArbete.WorldLoading
 
         public float GetValue(Vector2 pos)
         {
-           
+            pos /= 1f;  
             if (pos.X < 0 || sizeX < pos.X)
             {
                 Environment.Exit(-102);
@@ -60,24 +60,21 @@ namespace GymArbete.WorldLoading
 
             float x = pos.X - left;
             float y = pos.Y - up;
+            Vector2 v00 = values[left, up];
+            Vector2 v10 = values[left + 1, up];
 
+            Vector2 v01 = values[left, 1 + up];
+            Vector2 v11 = values[left + 1, 1 + up];
 
-            Vector2 v00 = values[left, up] * new Vector2(1 - x, 1 - y);
-            Vector2 v10 = values[left + 1, up] * new Vector2(x, 1 - y);
+            float n0 = Mix(DotProduct(v00, pos - v00),1 - x) + Mix(DotProduct(v10, pos - v10), x);
 
-            Vector2 v01 = values[left, 1 + up] * new Vector2(1 - x, y);
-            Vector2 v11 = values[left + 1, 1+ up] * new Vector2(x, y);
-
-            float n0 = Mix(CalcFunction(v00),1 - x) + Mix(CalcFunction(v10), x);
-
-            float n1 = Mix(CalcFunction(v01),1 - x) + Mix(CalcFunction(v11), x);
-
+            float n1 = Mix(DotProduct(v01, pos - v01),1 - x) + Mix(DotProduct(v11, pos - v11), x);
             return (Mix(n0, 1 - y) + Mix(n1, y));
-        }
+        } 
 
-        private float CalcFunction(Vector2 value)
+        private float DotProduct(Vector2 v1, Vector2 v2)
         {
-            return  value.X *value.Y;
+            return v1.X * v2.X + v2.Y * v1.Y;
         }
 
         private float Mix(float value, float distance)
@@ -91,8 +88,8 @@ namespace GymArbete.WorldLoading
 
         private float RandValue(Random rng)
         {
-            float value = rng.Next(-100, 101);
-            return value / 100;
+            float value = rng.Next(-100, 100);
+            return value * 0.01f;
         }
 
     }

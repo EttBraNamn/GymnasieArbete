@@ -10,14 +10,20 @@ namespace GymArbete.Blocks
         protected BlockType type;
         Color color;
 
-        public Block(float f)
+        public Block(float value)
         {
-            color = new Color(0, f, 0.5f * f);
+            value /= 25;
+            if (value < 0)
+                value = 0.5f - value * -1f;
+            else
+                value = 0.5f + value;
+
+            color = new Color(0.5f * value,value , 0.25f * value );
         }
 
         private Vector2 Position()
         {
-            return position * 16;
+            return position * 6;
         }
 
         public BlockType Type()
