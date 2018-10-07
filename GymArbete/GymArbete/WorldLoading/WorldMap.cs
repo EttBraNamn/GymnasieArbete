@@ -11,7 +11,7 @@ namespace GymArbete.WorldLoading
 
         public WorldMap(int sX, int sY,int seed = 4)
         {
-            sizeX = sX;
+            sizeX = sX;                                  
             sizeY = sY;
 
             if (sizeX % 10 != 0)
@@ -34,9 +34,9 @@ namespace GymArbete.WorldLoading
 
             values = new Vector2[xLength,yLength];
 
-            for (int x = 0; x < xLength; ++x)
+            for (int x = xLength - 1; x > -1; --x)
             {
-                for (int y = 0; y < yLength; ++y)
+                for (int y = yLength - 1; y > -1; --y)
                 {
                     values[x, y] = new Vector2(RandValue(rng), RandValue(rng));
                 }
@@ -45,7 +45,18 @@ namespace GymArbete.WorldLoading
 
         public float GetValue(Vector2 pos)
         {
-            pos /= 1f;  
+            float toReturn = 0.25f* Value(pos/1.4f);
+            toReturn += 0.25f * Value(pos/10f);
+            toReturn += 0.25f * Value(pos, 4.5f);
+            toReturn += 0.25f * Value(pos, 3);
+            toReturn += 0.25f * Value(pos);
+            toReturn += 0.25f * Value(pos / 2.4f);
+            return toReturn;
+        }
+
+        private float Value(Vector2 pos, float divider = 1)
+        {
+            pos /= divider;
             if (pos.X < 0 || sizeX < pos.X)
             {
                 Environment.Exit(-102);
@@ -66,11 +77,16 @@ namespace GymArbete.WorldLoading
             Vector2 v01 = values[left, 1 + up];
             Vector2 v11 = values[left + 1, 1 + up];
 
-            float n0 = Mix(DotProduct(v00, pos - v00),1 - x) + Mix(DotProduct(v10, pos - v10), x);
+            if (pos.Y > 50)
+            {
+                //Console.Beep();
+            }
 
-            float n1 = Mix(DotProduct(v01, pos - v01),1 - x) + Mix(DotProduct(v11, pos - v11), x);
+            float n0 = Mix(DotProduct(v00, pos - v00), 1 - x) + Mix(DotProduct(v10, pos - v10), x);
+
+            float n1 = Mix(DotProduct(v01, pos - v01), 1 - x) + Mix(DotProduct(v11, pos - v11), x);
             return (Mix(n0, 1 - y) + Mix(n1, y));
-        } 
+        }
 
         private float DotProduct(Vector2 v1, Vector2 v2)
         {
@@ -89,7 +105,7 @@ namespace GymArbete.WorldLoading
         private float RandValue(Random rng)
         {
             float value = rng.Next(-100, 100);
-            return value * 0.01f;
+            return value/100;
         }
 
     }
