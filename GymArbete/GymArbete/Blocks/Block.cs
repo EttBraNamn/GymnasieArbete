@@ -12,7 +12,7 @@ namespace GymArbete.Blocks
 
         public Block(float value)
         {
-            value /= 10;
+            value /= 50;
             if (value < 0)
                 value = 0.5f - value * -1f;
             else
@@ -23,7 +23,7 @@ namespace GymArbete.Blocks
 
         private Vector2 Position()
         {             
-            return position * 1;
+            return position * 8;
         }
 
         public BlockType Type()

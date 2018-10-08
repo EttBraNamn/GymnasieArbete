@@ -18,7 +18,7 @@ namespace GymArbete
         public Main()
         {
             gameState = GameState.WorldMap;
-            map = new WorldMap(16000, 9000, 170);
+            map = new WorldMap(1600, 900, 1789);
             player = new Player(new Vector2(1, 1));
             worldBlocks = new Dictionary<Vector2, Block>();
             Vector2 pos = new Vector2(0, 0);

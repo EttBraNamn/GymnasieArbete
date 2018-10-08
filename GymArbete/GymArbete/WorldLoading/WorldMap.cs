@@ -45,12 +45,11 @@ namespace GymArbete.WorldLoading
 
         public float GetValue(Vector2 pos)
         {
-            float toReturn = 0.25f* Value(pos/1.4f);
-            toReturn += 0.25f * Value(pos/10f);
-            toReturn += 0.25f * Value(pos, 4.5f);
-            toReturn += 0.25f * Value(pos, 3);
-            toReturn += 0.25f * Value(pos);
-            toReturn += 0.25f * Value(pos / 2.4f);
+            float toReturn = Value(pos, 1);
+            toReturn += 0.5f * Value(pos, 2);
+            toReturn += 0.25f * Value(pos, 4);
+            toReturn += 0.125f * Value(pos, 8);
+
             return toReturn;
         }
 
@@ -74,14 +73,10 @@ namespace GymArbete.WorldLoading
             Vector2 v00 = values[left, up];
             Vector2 v10 = values[left + 1, up];
 
-            Vector2 v01 = values[left, 1 + up];
-            Vector2 v11 = values[left + 1, 1 + up];
+            Vector2 v01 = values[left, up + 1];
+            Vector2 v11 = values[left + 1, up + 1];
 
-            if (pos.Y > 50)
-            {
-                //Console.Beep();
-            }
-
+            
             float n0 = Mix(DotProduct(v00, pos - v00), 1 - x) + Mix(DotProduct(v10, pos - v10), x);
 
             float n1 = Mix(DotProduct(v01, pos - v01), 1 - x) + Mix(DotProduct(v11, pos - v11), x);
