@@ -17,8 +17,9 @@ namespace GymArbete
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            graphics.PreferredBackBufferHeight = 720;
+            graphics.PreferredBackBufferHeight = 640;
             graphics.PreferredBackBufferWidth = 1280;
+            IsMouseVisible = true;
         }
 
         protected override void Initialize()

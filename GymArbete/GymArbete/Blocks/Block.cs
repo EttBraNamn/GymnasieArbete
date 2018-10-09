@@ -12,18 +12,18 @@ namespace GymArbete.Blocks
 
         public Block(float value)
         {
-            value /= 50;
+            value /= 10;
             if (value < 0)
                 value = 0.5f - value * -1f;
             else
                 value = 0.5f + value;
 
-            color = new Color(0.5f * value,value , 0.25f * value );
+            color = new Color(0.8967f * value, 0.4684f * value , 0.8f * value );
         }
 
         private Vector2 Position()
         {             
-            return position * 8;
+            return position * 16;
         }
 
         public BlockType Type()

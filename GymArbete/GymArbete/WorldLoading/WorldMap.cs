@@ -8,7 +8,7 @@ namespace GymArbete.WorldLoading
      
         private int sizeY, sizeX;
         Vector2[,] values;
-
+        private float last;
         public WorldMap(int sX, int sY,int seed = 4)
         {
             sizeX = sX;                                  
@@ -33,22 +33,24 @@ namespace GymArbete.WorldLoading
             int yLength = 1 + sizeY / 10;
 
             values = new Vector2[xLength,yLength];
-
+            Vector2 vec = new Vector2();
             for (int x = xLength - 1; x > -1; --x)
             {
                 for (int y = yLength - 1; y > -1; --y)
                 {
-                    values[x, y] = new Vector2(RandValue(rng), RandValue(rng));
+                    vec.X = RandValue(rng);
+                    vec.Y = RandValue(rng);
+                    values[x, y] = vec;
                 }
             }
         }
 
         public float GetValue(Vector2 pos)
         {
-            float toReturn = Value(pos, 1);
-            toReturn += 0.5f * Value(pos, 2);
-            toReturn += 0.25f * Value(pos, 4);
-            toReturn += 0.125f * Value(pos, 8);
+            float toReturn = Value(pos, 10);
+            toReturn += 0.5f * Value(pos, 5);
+            toReturn += 0.25f * Value(pos, 2.5f);
+            toReturn += 0.125f * Value(pos, 1);
 
             return toReturn;
         }

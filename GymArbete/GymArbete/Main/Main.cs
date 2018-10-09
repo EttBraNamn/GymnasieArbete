@@ -18,14 +18,14 @@ namespace GymArbete
         public Main()
         {
             gameState = GameState.WorldMap;
-            map = new WorldMap(1600, 900, 1789);
+            map = new WorldMap(80, 40, 43);
             player = new Player(new Vector2(1, 1));
             worldBlocks = new Dictionary<Vector2, Block>();
             Vector2 pos = new Vector2(0, 0);
-            for (int x = 0; x < 1600; ++x)
+            for (int x = 0; x < 80; ++x)
             {
                 pos.X = x;
-                for (int y = 0; y < 900; ++y)
+                for (int y = 0; y < 40; ++y)
                 {
                     pos.Y = y;
                     worldBlocks[pos] = new Floor(pos, map.GetValue(pos / 10));
@@ -81,7 +81,7 @@ namespace GymArbete
                 block.Value.Draw(spriteBatch);
             }
             player.WorldDraw(spriteBatch);
-            spriteBatch.DrawString(Textures.Font(), Convert.ToString(map.GetValue(player.GetWorldPosition() / 100)), new Vector2(25, 25), Color.White);
+            spriteBatch.DrawString(Textures.Font(), Convert.ToString(map.GetValue(player.GetWorldPosition() / 10)), new Vector2(25, 25), Color.White);
             spriteBatch.End();
         }
 
