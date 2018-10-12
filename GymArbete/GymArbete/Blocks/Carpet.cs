@@ -4,13 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GymArbete.WorldLoading
+namespace GymArbete.Blocks
 {
-    class Rooms
+    class Carpet
     {
-        public Rooms()
-        {
-
-        }
     }
 }
