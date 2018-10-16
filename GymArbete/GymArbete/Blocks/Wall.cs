@@ -6,7 +6,7 @@ namespace GymArbete.Blocks
     class Wall : Block
     {
 
-        public Wall(Vector2 pos, float f) : base(f)
+        public Wall(Vector2 pos) : base(0)
         {
             position = pos;
             type = BlockType.Wall;

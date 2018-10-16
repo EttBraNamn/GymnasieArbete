@@ -15,7 +15,10 @@ namespace GymArbete.WorldLoading
 
         public Room(Vector2 offset, int doorsLeft,Random rng, Orientation enterence = Orientation.None)
         {
+            //The position the room will be in relative to all the other
             this.offset = offset;
+            //What side the enterence will be on
+            this.enterence = enterence;
             if (doorsLeft < 3 && doorsLeft > 0)
             {
                 doors = rng.Next(0, doorsLeft + 1);
@@ -27,6 +30,10 @@ namespace GymArbete.WorldLoading
             orientations = new Orientation[doors];
             blocks = new Block[21, 13];
 
+            if (enterence == Orientation.None)
+            {
+                blocks = Templates.Entrance(orientations);
+            }
         }
 
     }

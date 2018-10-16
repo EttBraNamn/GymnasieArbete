@@ -28,7 +28,7 @@ namespace GymArbete
                 for (int y = 0; y < 40; ++y)
                 {
                     pos.Y = y;
-                    worldBlocks[pos] = new Floor(pos, map.GetValue(pos / 10));
+                    worldBlocks[pos] = new Ground(pos, map.GetValue(pos / 10));
                 }
             }
 

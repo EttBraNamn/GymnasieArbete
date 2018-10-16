@@ -7,10 +7,10 @@ using GymArbete.Blocks;
 
 namespace GymArbete.Blocks
 {
-    class Floor : Block
+    class Ground : Block
     {
 
-        public Floor(Vector2 pos, float f) : base(f)
+        public Ground(Vector2 pos) : base(0)
         {
             type = BlockType.Floor;
             position = pos;

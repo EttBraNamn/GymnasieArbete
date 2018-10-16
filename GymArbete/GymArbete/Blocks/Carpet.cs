@@ -1,12 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.Xna.Framework;
+
 
 namespace GymArbete.Blocks
 {
-    class Carpet
+    class Carpet : Block
     {
+
+        public Carpet(Vector2 pos) : base(0)
+        {
+            type = BlockType.Carpet;
+            position = pos;
+        }
+
     }
 }

@@ -43,7 +43,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Blocks\Block.cs" />
-    <Compile Include="Blocks\Floor.cs" />
+    <Compile Include="Blocks\Carpet.cs" />
+    <Compile Include="Blocks\Ground.cs" />
     <Compile Include="Blocks\Wall.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Main\Main.cs" />
@@ -51,7 +52,10 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Textures.cs" />
-    <Compile Include="WorldLoading\Rooms.cs" />
+    <Compile Include="WorldLoading\Room\Floors.cs" />
+    <Compile Include="WorldLoading\Room\Room.cs" />
+    <Compile Include="WorldLoading\Room\Floor.cs" />
+    <Compile Include="WorldLoading\Room\RoomTypes\Templates.cs" />
     <Compile Include="WorldLoading\WorldMap.cs" />
   </ItemGroup>
   <ItemGroup>

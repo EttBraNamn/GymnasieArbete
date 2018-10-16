@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace GymArbete.Blocks
 {
-    public enum BlockType { Wall, Floor}
+    public enum BlockType { Wall, Floor, Carpet, Staircase}
     public abstract class Block
     {
         protected Vector2 position;
@@ -18,7 +18,7 @@ namespace GymArbete.Blocks
             else
                 value = 0.5f + value;
 
-            color = new Color(0.8967f * value, 0.4684f * value , 0.8f * value );
+            color = new Color(1 - 0.8967f * value, 1 - 0.4684f * value , 1 - 0.8f * value );
         }
 
         private Vector2 Position()
