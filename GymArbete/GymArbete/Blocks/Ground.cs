@@ -16,5 +16,12 @@ namespace GymArbete.Blocks
             position = pos;
         }
 
+
+        public Ground(Vector2 pos, float f) : base(f)
+        {
+            type = BlockType.Floor;
+            position = pos;
+        }
+
     }
 }

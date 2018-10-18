@@ -5,11 +5,29 @@ namespace GymArbete.WorldLoading
 {
     static class Templates
     {
+        //Makes a regular room
         public static Block[,] Room(Random rng, Orientation[] orientations, Orientation enterance)
         {
             Block[,] blocks = Walls(orientations, enterance);
 
-            blocks = RoomPattern(rng);
+            //Gets the pattern used for the floor
+            int[,] pattern = RoomPattern(rng);
+
+            for (int x = 0; x < 19; ++x)
+            {
+                for (int y = 0; y < 11; ++y)
+                {
+                    if (pattern[x, y] == 1)
+                    {
+                        blocks[1 + x, 1 + y] = new Carpet(new Vector2(1 + x, 1 + y));
+                    }
+                    else
+                    {
+                        blocks[1 + x, 1 + y] = new Ground(new Vector2(1 + x, 1 + y));
+                    }
+                }
+            }
+            return blocks;
         }
         public static Block[,] Entrance(Random rng, Orientation[] orientations)
         {
@@ -71,15 +89,30 @@ namespace GymArbete.WorldLoading
             return blocks;
         }
 
-        private static Block[,] RoomPattern(Random rng)
+        private static int[,] RoomPattern(Random rng)
         {
-            bool[,] vs = new bool[19, 11];
+            int[,] vs = new int[19, 11];
 
-            switch (rng.Next(0, 10))
+            switch (rng.Next(0, 4))
             {
                 case 0:
-                    vs = room0;
+                    vs = Room0;
+                    break;
+                case 1:
+                    vs = Room1;
+                    break;
+                case 2:
+                    vs = Room2;
+                    break;
+                case 3:
+                    vs = Room3;
+                    break;
+                default:
+                    vs = Room0;
+                    break;
             }
+
+            return vs;
         }
 
         private static Block[,] SetOrientation(Block[,] blocks, Orientation orientation)
@@ -102,7 +135,7 @@ namespace GymArbete.WorldLoading
             return blocks;
         }
 
-
+        //Different room patterns. 1 = Carpet, 0 = Ground
         static private int[,] Room0
         {
             get
@@ -185,6 +218,35 @@ namespace GymArbete.WorldLoading
                         { 1,1,1,1,1,1,1,1,1,1,1},
                         { 0,0,0,0,0,0,0,0,0,0,0},
                         { 1,1,1,1,1,1,1,1,1,1,1},
+                    };
+            }
+        }
+
+        static private int[,] Room3
+        {
+            get
+            {
+                return new int[19, 11]
+                    {
+                        { 1,1,1,0,1,1,1,0,1,1,1},
+                        { 1,1,1,0,1,1,1,0,1,1,1},
+                        { 1,1,1,0,1,1,1,0,1,1,1},
+                        { 0,0,0,0,0,0,0,0,0,0,0},
+                        { 1,1,1,0,1,1,1,0,1,1,1},
+                        { 1,1,1,0,1,1,1,0,1,1,1},
+                        { 1,1,1,0,1,1,1,0,1,1,1},
+                        { 0,0,0,0,0,0,0,0,0,0,0},
+                        { 1,1,1,0,1,1,1,0,1,1,1},
+                        { 1,1,1,0,1,1,1,0,1,1,1},
+                        { 1,1,1,0,1,1,1,0,1,1,1},
+                        { 0,0,0,0,0,0,0,0,0,0,0},
+                        { 1,1,1,0,1,1,1,0,1,1,1},
+                        { 1,1,1,0,1,1,1,0,1,1,1},
+                        { 1,1,1,0,1,1,1,0,1,1,1},
+                        { 0,0,0,0,0,0,0,0,0,0,0},
+                        { 1,1,1,0,1,1,1,0,1,1,1},
+                        { 1,1,1,0,1,1,1,0,1,1,1},
+                        { 1,1,1,0,1,1,1,0,1,1,1},
                     };
             }
         }

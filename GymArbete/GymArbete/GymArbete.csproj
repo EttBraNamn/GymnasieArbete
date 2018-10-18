@@ -45,6 +45,7 @@
     <Compile Include="Blocks\Block.cs" />
     <Compile Include="Blocks\Carpet.cs" />
     <Compile Include="Blocks\Ground.cs" />
+    <Compile Include="Blocks\Staircase.cs" />
     <Compile Include="Blocks\Wall.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Main\Main.cs" />

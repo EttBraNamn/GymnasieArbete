@@ -47,7 +47,7 @@ namespace GymArbete.WorldLoading
 
         public float GetValue(Vector2 pos)
         {
-            float toReturn = Value(pos, 10);
+            float toReturn = Value(pos, 5);
             toReturn += 0.5f * Value(pos, 5);
             toReturn += 0.25f * Value(pos, 2.5f);
             toReturn += 0.125f * Value(pos, 1);
