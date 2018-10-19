@@ -13,6 +13,12 @@ namespace GymArbete.WorldLoading
         Orientation enterence;
         Block[,] blocks;
 
+
+        public Block[,] GetBlocks()
+        {
+            return blocks;
+        }
+
         public Room(Vector2 offset, int doorsLeft,Random rng, Orientation enterence = Orientation.None)
         {
             //The position the room will be in relative to all the other
@@ -49,6 +55,11 @@ namespace GymArbete.WorldLoading
             {
                 blocks = Templates.Room(rng, orientations, enterence);
             }
+        }
+
+        public void MakeExit()
+        {
+            blocks[10, 6] = new Staircase(new Vector2(10, 6), false);
         }
 
         private Orientation GetOrientation(Random rng)
