@@ -6,7 +6,7 @@ namespace GymArbete
 {
 
 
-    public enum GameState { WorldMap}
+    public enum GameState { WorldMap, Floor}
     public class Game1 : Game
     {
         GraphicsDeviceManager graphics;
@@ -57,6 +57,9 @@ namespace GymArbete
                 case GameState.WorldMap:
                     main.WorldUpdate(gameTime);
                     break;
+                case GameState.Floor:
+                    main.FloorUpdate(gameTime);
+                    break;
             }
             main.Update(gameTime);
             
@@ -72,6 +75,9 @@ namespace GymArbete
             {
                 case GameState.WorldMap:
                     main.WorldDraw(spriteBatch, gameTime);
+                    break;
+                case GameState.Floor:
+                    main.FloorDraw(spriteBatch, gameTime);
                     break;
             }
 

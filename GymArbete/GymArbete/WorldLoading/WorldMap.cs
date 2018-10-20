@@ -8,7 +8,6 @@ namespace GymArbete.WorldLoading
      
         private int sizeY, sizeX;
         Vector2[,] values;
-        private float last;
         public WorldMap(int sX, int sY,int seed = 4)
         {
             sizeX = sX;                                  

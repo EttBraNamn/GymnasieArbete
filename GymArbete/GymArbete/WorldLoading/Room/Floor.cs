@@ -20,20 +20,20 @@ namespace GymArbete.WorldLoading
             List<Buffer> buffers = new List<Buffer>();
 
             floor.Add(new Room(new Vector2(0), rooms, rng));
-            rooms -= floor[floor.Capacity - 1].doors;
+            rooms -= floor[floor.Count - 1].doors;
 
-            AddBuffer(buffers, floor[floor.Capacity - 1]);
-            while (buffers.Capacity > 0)
+            AddBuffer(buffers, floor[floor.Count - 1]);
+            while (buffers.Count > 0)
             {
                 floor.Add(new Room(buffers[0].offset, rooms, rng, buffers[0].enterence));
 
-                AddBuffer(buffers, floor[floor.Capacity - 1]);
+                AddBuffer(buffers, floor[floor.Count - 1]);
                 buffers.RemoveAt(0);
-                rooms -= floor[floor.Capacity - 1].doors;
+                rooms -= floor[floor.Count - 1].doors;
             }
 
             if (!lastFloor)
-            floor[floor.Capacity - 1].MakeExit();
+            floor[floor.Count - 1].MakeExit();
 
             return floor;
         }

@@ -35,13 +35,13 @@ namespace GymArbete.WorldLoading
             }
             orientations = new Orientation[doors];
 
-            for (int i = 0; i < orientations.Length;)
+            for (int i = 0; i < orientations.Length; ++i)
             {
                 Orientation orientation = GetOrientation(rng);
 
                 if (Contains(orientations, orientation) && enterence != orientation)
                 {
-                    orientations[i++] = orientation;
+                    orientations[i] = orientation;
                 }
             }
 
