@@ -1,19 +1,20 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
+using GymArbete.Blocks;
 
 namespace GymArbete.WorldLoading
 {
     class Floor
     {
         List<Room> floor;
-        public Floor(int rooms, Random rng)
+        public Floor(int rooms, Random rng, bool lastFloor = false)
         {
-            floor = CreateFloor(rooms, rng);
+            floor = CreateFloor(rooms, rng, lastFloor);
         }
 
 
-        private List<Room> CreateFloor(int rooms, Random rng, bool lastFloor = false)
+        private List<Room> CreateFloor(int rooms, Random rng, bool lastFloor)
         {
             List<Room> floor = new List<Room>();
             List<Buffer> buffers = new List<Buffer>();
@@ -35,6 +36,28 @@ namespace GymArbete.WorldLoading
             floor[floor.Capacity - 1].MakeExit();
 
             return floor;
+        }
+
+        public Dictionary<Vector2, Block> GetFloor()
+        {
+            Dictionary<Vector2, Block> dic = new Dictionary<Vector2, Block>();
+
+            foreach(Room room in floor)
+             {
+                Vector2 of = new Vector2(21, 13) * room.offset;
+                Block[,] blocks = room.GetBlocks();
+                Vector2 curr = new Vector2(0);
+                for (int x = 0; x < 21; ++x)
+                {
+                    curr.X = x + of.X;
+                    for (int y = 0; y < 13; ++y)
+                    {
+                        curr.Y = y + of.X;
+                        dic[curr] = blocks[x, y];
+                    }
+                }
+            }
+            return dic;
         }
 
         //Adds all of the new rooms to the buffer

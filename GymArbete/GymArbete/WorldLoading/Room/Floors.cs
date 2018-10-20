@@ -40,7 +40,6 @@ namespace GymArbete.WorldLoading
             {
                 return ErrorRoom();
             }
-
             return floors[i].GetFloor();
         }
 
