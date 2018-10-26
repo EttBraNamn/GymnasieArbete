@@ -8,29 +8,44 @@ namespace GymArbete.WorldLoading
     class Floor
     {
         List<Room> floor;
+        private int rooms;
         public Floor(int rooms, Random rng, bool lastFloor = false)
         {
             floor = CreateFloor(rooms, rng, lastFloor);
         }
 
 
-        private List<Room> CreateFloor(int rooms, Random rng, bool lastFloor)
+        private List<Room> CreateFloor(int amountRooms, Random rng, bool lastFloor)
         {
+            rooms = 30;
             List<Room> floor = new List<Room>();
             List<Buffer> buffers = new List<Buffer>();
-
+            List<Buffer> illegalBuffers = new List<Buffer>();
+            illegalBuffers.Add(new Buffer(new Vector2(0, 0), Orientation.None));
             floor.Add(new Room(new Vector2(0), rooms, rng));
-            rooms -= floor[floor.Count - 1].doors;
 
-            AddBuffer(buffers, floor[floor.Count - 1]);
-            while (buffers.Count > 0)
+            AddBuffer(buffers, illegalBuffers,floor[floor.Count - 1]);
+            while (rooms > 0)
             {
-                floor.Add(new Room(buffers[0].offset, rooms, rng, buffers[0].enterence));
+                while (buffers.Count > 0)
+                {
+                    floor.Add(new Room(buffers[0].offset, rooms, rng, buffers[0].enterence));
 
-                AddBuffer(buffers, floor[floor.Count - 1]);
-                buffers.RemoveAt(0);
-                rooms -= floor[floor.Count - 1].doors;
+                    AddBuffer(buffers, illegalBuffers, floor[floor.Count - 1]);
+                    buffers.RemoveAt(0);
+                }
+                break;
+                if (rooms > 0)
+                {
+                    int i = rng.Next(0, floor.Count);
+                    while (floor[i].AddDoor(rng) == false)
+                    {
+                        i = rng.Next(0, floor.Count);
+                    }
+                    AddBuffer(buffers, illegalBuffers,floor[i]);
+                }
             }
+            
 
             if (!lastFloor)
             floor[floor.Count - 1].MakeExit();
@@ -52,8 +67,11 @@ namespace GymArbete.WorldLoading
                     curr.X = x + of.X;
                     for (int y = 0; y < 13; ++y)
                     {
-                        curr.Y = y + of.X;
-                        dic[curr] = blocks[x, y];
+                        curr.Y = y + of.Y;
+                        blocks[x, y].position.Y = curr.Y;
+                        blocks[x, y].position.X = curr.X;
+
+                        dic[curr] = blocks[x,y];
                     }
                 }
             }
@@ -61,27 +79,86 @@ namespace GymArbete.WorldLoading
         }
 
         //Adds all of the new rooms to the buffer
-        private void AddBuffer(List<Buffer> buffers, Room room)
+        private void AddBuffer(List<Buffer> buffers, List<Buffer> illegal, Room room)
         {
             for (int i = 0; i < room.orientations.Length; ++i)
             {
+                Buffer buf;
                 switch (room.orientations[i])
                 {
                     case Orientation.Down:
-                        buffers.Add(new Buffer(new Vector2(room.offset.X, room.offset.Y + 1), Orientation.Up));
+                        buf = new Buffer(new Vector2(room.offset.X, room.offset.Y + 1), Orientation.Up);
+                        if (Allowed(illegal, buf))
+                        {
+                            illegal.Add(buf);
+                            buffers.Add(buf);
+                            --rooms;
+                        }
+                        else
+                        {
+                            room.orientations[i] = Orientation.None;
+                            ++rooms;
+                        }
                         break;
                     case Orientation.Left:
-                        buffers.Add(new Buffer(new Vector2(room.offset.X - 1, room.offset.Y), Orientation.Right));
+                        buf = new Buffer(new Vector2(room.offset.X - 1, room.offset.Y), Orientation.Right);
+                        if (Allowed(illegal, buf))
+                        {
+                            --rooms;
+                            illegal.Add(buf);
+                            buffers.Add(buf);
+                        }
+                        else
+                        {
+                            room.orientations[i] = Orientation.None;
+                            ++rooms;
+                        }
                         break;
                     case Orientation.Right:
-                        buffers.Add(new Buffer(new Vector2(room.offset.X + 1, room.offset.Y), Orientation.Left));
+                        buf = new Buffer(new Vector2(room.offset.X + 1, room.offset.Y), Orientation.Left);
+                        if (Allowed(illegal, buf))
+                        {
+                            --rooms;
+                            illegal.Add(buf);
+                            buffers.Add(buf);
+                        }
+                        else
+                        {
+                            room.orientations[i] = Orientation.None;
+                            ++rooms;
+                        }
                         break;
                     case Orientation.Up:
-                        buffers.Add(new Buffer(new Vector2(room.offset.X, room.offset.Y - 1), Orientation.Up));
+                        buf = new Buffer(new Vector2(room.offset.X, room.offset.Y - 1), Orientation.Down);
+                        if (Allowed(illegal, buf))
+                        {
+                            --rooms;
+                            illegal.Add(buf);
+                            buffers.Add(buf);
+                        }
+                        else
+                        {
+                            room.orientations[i] = Orientation.None;
+                            ++rooms;
+                        }
                         break;
 
                 }
+
+
             }
+        }
+
+
+        private bool Allowed(List<Buffer> illegal, Buffer buf)
+        {
+            foreach (Buffer illBuf in illegal)
+            {
+                if (illBuf.offset == buf.offset)
+
+                    return false;
+            }
+            return true;
         }
     }
     public class Buffer

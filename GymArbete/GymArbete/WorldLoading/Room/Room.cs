@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using GymArbete.Blocks;
 using System;
+using System.Collections.Generic;
 
 namespace GymArbete.WorldLoading
 {
@@ -14,12 +15,29 @@ namespace GymArbete.WorldLoading
         Block[,] blocks;
 
 
+        public bool AddDoor(Random rng)
+        {
+            if (orientations.Length > 2)
+            {
+                return false;
+            }
+
+            int i = rng.Next(0, 4);
+            while (enterence != (Orientation)i && Contains(orientations, (Orientation)i))
+            {
+                i = rng.Next(0, 4);
+            }
+            orientations = new Orientation[1];
+            orientations[0] = (Orientation)i;
+            return true;
+        }
+
         public Block[,] GetBlocks()
         {
             return blocks;
         }
 
-        public Room(Vector2 offset, int doorsLeft,Random rng, Orientation enterence = Orientation.None)
+        public Room(Vector2 offset, int doorsLeft,Random rng,Orientation enterence = Orientation.None)
         {
             //The position the room will be in relative to all the other
             this.offset = offset;
@@ -39,7 +57,7 @@ namespace GymArbete.WorldLoading
             {
                 Orientation orientation = GetOrientation(rng);
 
-                if (Contains(orientations, orientation) && enterence != orientation)
+                if (Contains(orientations, orientation))
                 {
                     orientations[i] = orientation;
                 }

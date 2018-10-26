@@ -77,7 +77,7 @@ namespace GymArbete
                     main.WorldDraw(spriteBatch, gameTime);
                     break;
                 case GameState.Floor:
-                    main.FloorDraw(spriteBatch, gameTime);
+                    main.FloorDraw(spriteBatch, GraphicsDevice ,gameTime);
                     break;
             }
 

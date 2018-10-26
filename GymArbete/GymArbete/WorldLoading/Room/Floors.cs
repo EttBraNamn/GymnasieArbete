@@ -18,7 +18,7 @@ namespace GymArbete.WorldLoading
             floors = new Floor[height];
             int roomAmount = 10;
 
-            for (int i = 0; i < floors.Length -1 ; ++i)
+            for (int i = 0; i < floors.Length; ++i)
             {
                 roomAmount = RoomAmount(roomAmount, rng);
                 floors[i] = new Floor(roomAmount, rng);

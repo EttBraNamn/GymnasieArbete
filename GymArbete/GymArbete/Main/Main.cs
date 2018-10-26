@@ -66,7 +66,7 @@ namespace GymArbete
             Floors floors = new Floors(seed, height, pos);
             floorNum = height;
             //Player always starts on the first floor
-            floor = floors.GetFloor(3);
+            floor = floors.GetFloor(0);
         }
 
         public void FloorUpdate(GameTime gameTime)
@@ -85,9 +85,16 @@ namespace GymArbete
             }
             lastKey = Keyboard.GetState();
         }
-        public void FloorDraw(SpriteBatch spriteBatch, GameTime gameTime)
+        public void FloorDraw(SpriteBatch spriteBatch, GraphicsDevice graphics,GameTime gameTime)
         {
-            spriteBatch.Begin();
+            Vector2 temp = player.GetFloorPosition() * 16;
+            temp.X *= -1;
+            temp.Y *= -1;
+            temp.Y += graphics.DisplayMode.Height/3;
+            temp.X += graphics.DisplayMode.Width/3;
+
+            spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, 
+                Camera.GetMatrix(temp));
             foreach (KeyValuePair<Vector2, Block> block in floor)
             {
                 block.Value.Draw(spriteBatch);
@@ -154,14 +161,14 @@ namespace GymArbete
                     break;
                 case GameState.Floor:
                     if (!floor.ContainsKey(pos))
-                        return false;
+                        return true;
                     if (floor[pos].Type() != BlockType.Wall)
                         return true;
                     break;
 
             }
 
-            return false;
+            return true;
         }
 
 

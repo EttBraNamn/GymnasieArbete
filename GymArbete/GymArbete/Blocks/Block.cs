@@ -6,7 +6,7 @@ namespace GymArbete.Blocks
     public enum BlockType { Wall, Floor, Carpet, Staircase}
     public abstract class Block
     {
-        protected Vector2 position;
+        public Vector2 position;
         protected BlockType type;
         Color color;
 
