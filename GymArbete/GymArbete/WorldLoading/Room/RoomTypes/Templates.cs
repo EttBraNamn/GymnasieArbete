@@ -8,7 +8,7 @@ namespace GymArbete.WorldLoading
         //Makes a regular room
         public static Block[,] Room(Random rng, Orientation[] orientations, Orientation enterance)
         {
-            Block[,] blocks = Walls(orientations, enterance);
+            Block[,] blocks = Walls();
 
             //Gets the pattern used for the floor
             int[,] pattern = RoomPattern(rng);
@@ -32,7 +32,7 @@ namespace GymArbete.WorldLoading
         public static Block[,] Entrance(Random rng, Orientation[] orientations)
         {
             //Creates the object and all the walls with doors
-            Block[,] blocks = Walls(orientations, Orientation.None);
+            Block[,] blocks = Walls();
 
             //Making all the floor blocks randomising if they are regular floor or carpet
             for (int x = 1; x < 20; ++x)
@@ -56,7 +56,7 @@ namespace GymArbete.WorldLoading
 
 
         //Makes all of the walls and doors
-        private static Block[,] Walls(Orientation[] orientations, Orientation enterence)
+        private static Block[,] Walls()
         {
             Block[,] blocks = new Block[21, 13];
 
@@ -78,13 +78,7 @@ namespace GymArbete.WorldLoading
             {
                 blocks[20, i] = new Wall(new Vector2(20, i));
             }
-            
-            //Creates all of the doors
-            for (int i = 0; i < orientations.Length; ++i)
-            {
-                blocks = SetOrientation(blocks, orientations[i]);
-            }
-            blocks = SetOrientation(blocks, enterence);
+           
 
             return blocks;
         }
@@ -115,25 +109,7 @@ namespace GymArbete.WorldLoading
             return vs;
         }
 
-        private static Block[,] SetOrientation(Block[,] blocks, Orientation orientation)
-        {
-            switch (orientation)
-            {
-                case Orientation.Left:
-                    blocks[0, 6] = new Ground(new Vector2(0, 6));
-                    break;
-                case Orientation.Up:
-                    blocks[10, 0] = new Ground(new Vector2(10, 0));
-                    break;
-                case Orientation.Down:
-                    blocks[10, 12] = new Ground(new Vector2(10, 12));
-                    break;
-                case Orientation.Right:
-                    blocks[20, 6] = new Ground(new Vector2(20, 6));
-                    break;
-            }
-            return blocks;
-        }
+        
 
         //Different room patterns. 1 = Carpet, 0 = Ground
         static private int[,] Room0

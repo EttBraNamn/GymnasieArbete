@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using GymArbete.Blocks;
 using System;
-using System.Collections.Generic;
 
 namespace GymArbete.WorldLoading
 {
@@ -23,17 +22,26 @@ namespace GymArbete.WorldLoading
             }
 
             int i = rng.Next(0, 4);
-            while (enterence != (Orientation)i && Contains(orientations, (Orientation)i))
+            while (enterence == (Orientation)i || Contains(orientations, (Orientation)i))
             {
                 i = rng.Next(0, 4);
             }
-            orientations = new Orientation[1];
-            orientations[0] = (Orientation)i;
+            Orientation[] tempOrientation = new Orientation[orientations.Length + 1];
+            int u = 0;
+            for (; u < orientations.Length; ++u)
+            {
+                tempOrientation[u] = orientations[u];
+            }
+            tempOrientation[u] = (Orientation)i;
+            orientations = tempOrientation;
             return true;
         }
 
+        
+
         public Block[,] GetBlocks()
         {
+
             return blocks;
         }
 
@@ -57,7 +65,7 @@ namespace GymArbete.WorldLoading
             {
                 Orientation orientation = GetOrientation(rng);
 
-                if (Contains(orientations, orientation))
+                if (!Contains(orientations, orientation))
                 {
                     orientations[i] = orientation;
                 }
@@ -101,9 +109,9 @@ namespace GymArbete.WorldLoading
             for (int i = 0; i < orarray.Length; ++i)
             {
                 if (orarray[i] == or)
-                    return false;
+                    return true;
             }
-            return true;
+            return false;
         }
 
     }

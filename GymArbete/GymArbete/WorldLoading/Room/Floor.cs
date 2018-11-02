@@ -17,7 +17,7 @@ namespace GymArbete.WorldLoading
 
         private List<Room> CreateFloor(int amountRooms, Random rng, bool lastFloor)
         {
-            rooms = 30;
+            rooms = 1000;
             List<Room> floor = new List<Room>();
             List<Buffer> buffers = new List<Buffer>();
             List<Buffer> illegalBuffers = new List<Buffer>();
@@ -34,7 +34,7 @@ namespace GymArbete.WorldLoading
                     AddBuffer(buffers, illegalBuffers, floor[floor.Count - 1]);
                     buffers.RemoveAt(0);
                 }
-                break;
+                
                 if (rooms > 0)
                 {
                     int i = rng.Next(0, floor.Count);
@@ -56,9 +56,10 @@ namespace GymArbete.WorldLoading
         public Dictionary<Vector2, Block> GetFloor()
         {
             Dictionary<Vector2, Block> dic = new Dictionary<Vector2, Block>();
-
+            List<Vector2> offsets = new List<Vector2>();
             foreach(Room room in floor)
              {
+                offsets.Add(room.offset);
                 Vector2 of = new Vector2(21, 13) * room.offset;
                 Block[,] blocks = room.GetBlocks();
                 Vector2 curr = new Vector2(0);
@@ -74,6 +75,61 @@ namespace GymArbete.WorldLoading
                         dic[curr] = blocks[x,y];
                     }
                 }
+            }
+
+            foreach(Vector2 vec in offsets)
+            {
+                Vector2 compare = vec;
+
+                --compare.Y;
+                if (offsets.Contains(compare))
+                {
+                    AddDoor(dic, vec, Orientation.Up);
+                }
+                compare.Y += 2;
+                if (offsets.Contains(compare))
+                {
+                    AddDoor(dic, vec, Orientation.Down);
+                }
+                --compare.Y;
+                --compare.X;
+                if (offsets.Contains(compare))
+                {
+                    AddDoor(dic, vec, Orientation.Left);
+                }
+                compare.X += 2;
+                if (offsets.Contains(compare))
+                {
+                    AddDoor(dic, vec, Orientation.Right);
+                }
+            }
+
+            return dic;
+        }
+
+        private static Dictionary<Vector2, Block> AddDoor(Dictionary<Vector2, Block> dic, Vector2 offset, Orientation orientation)
+        {
+            Vector2 curr = (new Vector2(21, 13)) * offset;
+            switch (orientation)
+            {
+                case Orientation.Left:
+                    curr.Y += 6;
+                    dic[curr] = new Ground(new Vector2(curr.X, curr.Y));
+                    break;
+                case Orientation.Up:
+                    curr.X += 10;
+                    dic[curr] = new Ground(new Vector2(curr.X, curr.Y));
+                    break;
+                case Orientation.Down:
+                    curr.Y += 12;
+                    curr.X += 10;
+                    dic[curr] = new Ground(new Vector2(curr.X, curr.Y));
+                    break;
+                case Orientation.Right:
+                    curr.X += 20;
+                    curr.Y += 6;
+                    dic[curr] = new Ground(new Vector2(curr.X, curr.Y));
+                    break;
             }
             return dic;
         }
@@ -94,11 +150,6 @@ namespace GymArbete.WorldLoading
                             buffers.Add(buf);
                             --rooms;
                         }
-                        else
-                        {
-                            room.orientations[i] = Orientation.None;
-                            ++rooms;
-                        }
                         break;
                     case Orientation.Left:
                         buf = new Buffer(new Vector2(room.offset.X - 1, room.offset.Y), Orientation.Right);
@@ -107,11 +158,6 @@ namespace GymArbete.WorldLoading
                             --rooms;
                             illegal.Add(buf);
                             buffers.Add(buf);
-                        }
-                        else
-                        {
-                            room.orientations[i] = Orientation.None;
-                            ++rooms;
                         }
                         break;
                     case Orientation.Right:
@@ -122,11 +168,6 @@ namespace GymArbete.WorldLoading
                             illegal.Add(buf);
                             buffers.Add(buf);
                         }
-                        else
-                        {
-                            room.orientations[i] = Orientation.None;
-                            ++rooms;
-                        }
                         break;
                     case Orientation.Up:
                         buf = new Buffer(new Vector2(room.offset.X, room.offset.Y - 1), Orientation.Down);
@@ -136,13 +177,7 @@ namespace GymArbete.WorldLoading
                             illegal.Add(buf);
                             buffers.Add(buf);
                         }
-                        else
-                        {
-                            room.orientations[i] = Orientation.None;
-                            ++rooms;
-                        }
                         break;
-
                 }
 
 
