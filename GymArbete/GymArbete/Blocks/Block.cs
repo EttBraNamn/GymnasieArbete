@@ -37,7 +37,7 @@ namespace GymArbete.Blocks
         public int GetValue()
         {
             int toReturn = 3;
-            for (float i = -3; i > value; i += 0.25f, ++toReturn);
+            for (float i = -3; i < value; i += 0.25f, ++toReturn);
 
             return toReturn;
         }
