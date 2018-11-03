@@ -41,7 +41,8 @@ namespace GymArbete
                     return wall;
                 case BlockType.Carpet:
                     return carpet;
-                case BlockType.Staircase:
+                case BlockType.Up:
+                case BlockType.Down:
                     return staircase;
             }
             return null;

@@ -3,16 +3,23 @@ namespace GymArbete.Blocks
 {
     class Staircase : Block
     {
-        bool up;
-        public Staircase(Vector2 pos, bool up) : base(0)
+        bool down;
+        public Staircase(Vector2 pos, bool down) : base(0)
         {
-            this.up = up;
+            this.down = down;
             position = pos;
-            type = BlockType.Staircase;
+            if (!down)
+            {
+                type = BlockType.Up;
+            }
+            else
+            {
+                type = BlockType.Down;
+            }
         }
         public bool FloorUp()
         {
-            return up;
+            return down;
         }
     }
 }

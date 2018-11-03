@@ -17,7 +17,7 @@ namespace GymArbete.WorldLoading
 
         private List<Room> CreateFloor(int amountRooms, Random rng, bool lastFloor)
         {
-            rooms = 1000;
+            rooms = amountRooms;
             List<Room> floor = new List<Room>();
             List<Buffer> buffers = new List<Buffer>();
             List<Buffer> illegalBuffers = new List<Buffer>();

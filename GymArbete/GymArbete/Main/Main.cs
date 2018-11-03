@@ -14,13 +14,13 @@ namespace GymArbete
         Player player;
         KeyboardState lastKey, key;
         public GameState gameState;
-
-        public Main()
+        int seed;
+        public Main(int tSeed = 0)
         {
+            seed = tSeed;
             gameState = GameState.Floor;
             player = new Player(new Vector2(1, 1));
-            /*
-            map = new WorldMap(80, 40, 43);
+            map = new WorldMap(80, 40, seed);
             worldBlocks = new Dictionary<Vector2, Block>();
             Vector2 pos = new Vector2(0, 0);
             for (int x = 0; x < 80; ++x)
@@ -32,7 +32,6 @@ namespace GymArbete
                     worldBlocks[pos] = new Ground(pos, map.GetValue(pos / 10));
                 }
             }
-            */
             FloorSetup(9, 6, new Vector2());
 
         }
@@ -63,10 +62,53 @@ namespace GymArbete
         //Setup for a floor
         private void FloorSetup(int seed, int height, Vector2 pos)
         {
-            Floors floors = new Floors(seed, height, pos);
-            floorNum = height;
+            floors = new Floors(seed, height, pos);
+            floorNum = 0;
             //Player always starts on the first floor
-            floor = floors.GetFloor(0);
+            floor = floors.GetFloor(floorNum);
+            player.NewFloor();
+        }
+
+
+        //Moves the character up or down a floor depending on what button is pressed
+        //The player must also stand on the right kind of staitile for this to work
+        private void ChangeFloor(Orientation orientation)
+        {
+            if (!player.hasMoved)
+            {
+                if (orientation == Orientation.Up)
+                {
+                    if (floor.ContainsKey(player.GetFloorPosition()) && floor[player.GetFloorPosition()].Type() == BlockType.Up)
+                    {
+                        ++floorNum;
+                        NewFloor();
+                    }
+                }
+                else
+                {
+                    if (floor.ContainsKey(player.GetFloorPosition()) && floor[player.GetFloorPosition()].Type() == BlockType.Down)
+                    {
+                        --floorNum;
+                        NewFloor();
+                    }
+                }
+            }
+        }
+
+        private void NewFloor()
+        {
+            if (floorNum < 0)
+            {
+                gameState = GameState.WorldMap;
+                return;
+            }
+            if (!player.hasMoved)
+            {
+                floor = floors.GetFloor(floorNum);
+                player.NewFloor();
+                player.hasMoved = true;
+            }
+            
         }
 
         public void FloorUpdate(GameTime gameTime)
@@ -80,7 +122,16 @@ namespace GymArbete
 
             for (int i = 0; i != pressed.Length; ++i)
             {
-
+                if (pressed[i] == Keys.Add)
+                {
+                    ChangeFloor(Orientation.Up);
+                    break;
+                }
+                else if (pressed[i] == Keys.Subtract)
+                {
+                    ChangeFloor(Orientation.Down);
+                    break;
+                }
                 CheckAndMove(pressed[i]);
             }
             lastKey = Keyboard.GetState();
@@ -123,7 +174,11 @@ namespace GymArbete
 
             for (int i = 0; i != pressed.Length; ++i)
             {
-
+                if (pressed[i] == Keys.Add)
+                {
+                    FloorSetup(seed, worldBlocks[player.GetWorldPosition()].GetValue(), player.GetWorldPosition());
+                    gameState = GameState.Floor;
+                }
                 CheckAndMove(pressed[i]);
             }
             lastKey = Keyboard.GetState();
@@ -156,9 +211,8 @@ namespace GymArbete
                 case GameState.WorldMap:
                     if (!worldBlocks.ContainsKey(pos))
                         return false;
-                    if (worldBlocks[pos].Type() == BlockType.Staircase)
+                   else
                         return true;
-                    break;
                 case GameState.Floor:
                     if (!floor.ContainsKey(pos))
                         return true;
@@ -168,7 +222,7 @@ namespace GymArbete
 
             }
 
-            return true;
+            return false;
         }
 
 

@@ -1,6 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 
 namespace GymArbete
 {
@@ -45,6 +44,12 @@ namespace GymArbete
        ##############################################
        </summary*/
 
+
+        public void NewFloor()
+        {
+            floorPosition.X = 10;
+            floorPosition.Y = 6;
+        }
 
         public Vector2 GetFloorPosition()
         {
