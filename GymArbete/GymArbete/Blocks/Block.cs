@@ -15,18 +15,16 @@ namespace GymArbete.Blocks
         {
             Console.WriteLine(value);
             this.value = value;
-            value /= 10;
-            if (value < 0)
-                value = 0.5f - value * -1f;
-            else
-                value = 0.5f + value;
 
-            color = new Color(1 - 0.8967f * value, 1 - 0.4684f * value , 1 - 0.8f * value );
+            value += 1;
+            value /= 2;
+
+            color = new Color(1 - 0.297f * value, 1 - 0.4684f * value , 1 - 0.8f * value );
         }
 
         private Vector2 Position()
         {             
-            return position * 16;
+            return position * 4;
         }
 
         public BlockType Type()

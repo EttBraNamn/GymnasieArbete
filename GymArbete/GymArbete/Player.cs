@@ -45,10 +45,10 @@ namespace GymArbete
        </summary*/
 
 
-        public void NewFloor()
+        public void NewFloor(float x = 10, float y = 6)
         {
-            floorPosition.X = 10;
-            floorPosition.Y = 6;
+            floorPosition.X = x;
+            floorPosition.Y = y;
         }
 
         public Vector2 GetFloorPosition()

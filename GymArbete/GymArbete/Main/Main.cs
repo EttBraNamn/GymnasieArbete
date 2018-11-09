@@ -20,13 +20,13 @@ namespace GymArbete
             seed = tSeed;
             gameState = GameState.Floor;
             player = new Player(new Vector2(1, 1));
-            map = new WorldMap(80, 40, seed);
+            map = new WorldMap(640, 320, seed);
             worldBlocks = new Dictionary<Vector2, Block>();
             Vector2 pos = new Vector2(0, 0);
-            for (int x = 0; x < 80; ++x)
+            for (int x = 0; x < 640; ++x)
             {
                 pos.X = x;
-                for (int y = 0; y < 40; ++y)
+                for (int y = 0; y < 320; ++y)
                 {
                     pos.Y = y;
                     worldBlocks[pos] = new Ground(pos, map.GetValue(pos / 10));
@@ -89,13 +89,14 @@ namespace GymArbete
                     if (floor.ContainsKey(player.GetFloorPosition()) && floor[player.GetFloorPosition()].Type() == BlockType.Down)
                     {
                         --floorNum;
-                        NewFloor();
+                        NewFloor(false);
                     }
                 }
             }
         }
 
-        private void NewFloor()
+        
+        private void NewFloor(bool atExit = true)
         {
             if (floorNum < 0)
             {
@@ -105,7 +106,21 @@ namespace GymArbete
             if (!player.hasMoved)
             {
                 floor = floors.GetFloor(floorNum);
-                player.NewFloor();
+                if (atExit)
+                {
+                    player.NewFloor();
+                }
+                else
+                {
+                    foreach (KeyValuePair<Vector2, Block> block in floor)
+                    {
+                        if (block.Value.Type() == BlockType.Up)
+                        {
+                            player.NewFloor(block.Key.X, block.Key.Y);
+                            break;
+                        }
+                    }
+                }
                 player.hasMoved = true;
             }
             

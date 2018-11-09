@@ -46,10 +46,12 @@ namespace GymArbete.WorldLoading
 
         public float GetValue(Vector2 pos)
         {
-            float toReturn = Value(pos, 5);
-            toReturn += 0.5f * Value(pos, 5);
-            toReturn += 0.25f * Value(pos, 2.5f);
-            toReturn += 0.125f * Value(pos, 1);
+            float toReturn = Value(pos, 8);
+            toReturn += Value(pos, 4);
+            toReturn += Value(pos, 2f);
+            toReturn += Value(pos, 1);
+
+            
 
             return toReturn;
         }
@@ -57,6 +59,7 @@ namespace GymArbete.WorldLoading
         private float Value(Vector2 pos, float divider = 1)
         {
             pos /= divider;
+            
             if (pos.X < 0 || sizeX < pos.X)
             {
                 Environment.Exit(-102);
@@ -77,11 +80,19 @@ namespace GymArbete.WorldLoading
             Vector2 v01 = values[left, up + 1];
             Vector2 v11 = values[left + 1, up + 1];
 
-            
+
+
+            /*
             float n0 = Mix(DotProduct(v00, pos - v00), 1 - x) + Mix(DotProduct(v10, pos - v10), x);
 
             float n1 = Mix(DotProduct(v01, pos - v01), 1 - x) + Mix(DotProduct(v11, pos - v11), x);
-            return (Mix(n0, 1 - y) + Mix(n1, y));
+            */
+            
+            float n0 = Mix(DotProduct(v00, new Vector2(x, y)), 1 - x) + Mix(DotProduct(v10, new Vector2(x - 1, y)), x);
+
+            float n1 = Mix(DotProduct(v01, new Vector2(x,  y - 1)), 1 - x) + Mix(DotProduct(v11, new Vector2(x - 1, y - 1)), x);
+            
+            return (Mix(n0, 1 - y) + Mix(n1, y)) / divider;
         }
 
         private float DotProduct(Vector2 v1, Vector2 v2)
