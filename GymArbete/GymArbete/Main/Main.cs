@@ -15,12 +15,12 @@ namespace GymArbete
         KeyboardState lastKey, key;
         public GameState gameState;
         int seed;
-        public Main(int tSeed = 0)
+        public Main(int tSeed = 25)
         {
             seed = tSeed;
             gameState = GameState.Floor;
             player = new Player(new Vector2(1, 1));
-            map = new WorldMap(640, 320, seed);
+            map = new WorldMap(6400, 3200, seed);
             worldBlocks = new Dictionary<Vector2, Block>();
             Vector2 pos = new Vector2(0, 0);
             for (int x = 0; x < 640; ++x)
@@ -32,7 +32,7 @@ namespace GymArbete
                     worldBlocks[pos] = new Ground(pos, map.GetValue(pos / 10));
                 }
             }
-            FloorSetup(9, 6, new Vector2());
+            FloorSetup(seed, 6, new Vector2());
 
         }
 
@@ -199,9 +199,16 @@ namespace GymArbete
             lastKey = Keyboard.GetState();
         }
 
-        public void WorldDraw(SpriteBatch spriteBatch, GameTime gameTime)
+        public void WorldDraw(SpriteBatch spriteBatch, GraphicsDevice graphics, GameTime gameTime)
         {
-            spriteBatch.Begin();
+            Vector2 temp = player.GetWorldPosition() * 16;
+            temp.X *= -1;
+            temp.Y *= -1;
+            temp.Y += graphics.DisplayMode.Height / 3;
+            temp.X += graphics.DisplayMode.Width / 3;
+
+            spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null,
+                Camera.GetMatrix(temp, true));
             foreach (KeyValuePair<Vector2, Block> block in worldBlocks)
             {
                 block.Value.Draw(spriteBatch);

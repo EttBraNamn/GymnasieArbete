@@ -28,14 +28,14 @@ namespace GymArbete.WorldLoading
 
             Random rng = new Random(seed);
 
-            int xLength = 1 + sizeX / 10;
-            int yLength = 1 + sizeY / 10;
+            sizeX = 1 + sizeX / 20;
+            sizeY = 1 + sizeY / 20;
 
-            values = new Vector2[xLength,yLength];
+            values = new Vector2[sizeX,sizeY];
             Vector2 vec = new Vector2();
-            for (int x = xLength - 1; x > -1; --x)
+            for (int x = sizeX - 1; x > -1; --x)
             {
-                for (int y = yLength - 1; y > -1; --y)
+                for (int y = sizeY - 1; y > -1; --y)
                 {
                     vec.X = RandValue(rng);
                     vec.Y = RandValue(rng);
@@ -46,20 +46,23 @@ namespace GymArbete.WorldLoading
 
         public float GetValue(Vector2 pos)
         {
-            float toReturn = Value(pos, 8);
+            float toReturn =  Value(pos, 8);
             toReturn += Value(pos, 4);
-            toReturn += Value(pos, 2f);
+            toReturn += Value(pos, 2);
             toReturn += Value(pos, 1);
+            toReturn += Value(pos, 16);
 
-            
 
             return toReturn;
         }
 
         private float Value(Vector2 pos, float divider = 1)
         {
-            pos /= divider;
-            
+            pos *= divider;
+
+            pos.X %= sizeX- 1;
+            pos.Y %= sizeY - 1;
+
             if (pos.X < 0 || sizeX < pos.X)
             {
                 Environment.Exit(-102);

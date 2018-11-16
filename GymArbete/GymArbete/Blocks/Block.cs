@@ -19,12 +19,12 @@ namespace GymArbete.Blocks
             value += 1;
             value /= 2;
 
-            color = new Color(1 - 0.297f * value, 1 - 0.4684f * value , 1 - 0.8f * value );
+            color = new Color(1 - value , 1 - value,1 - value);
         }
 
         private Vector2 Position()
         {             
-            return position * 4;
+            return position * 16;
         }
 
         public BlockType Type()

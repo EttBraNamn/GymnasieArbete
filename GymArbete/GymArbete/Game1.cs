@@ -74,7 +74,7 @@ namespace GymArbete
             switch (main.gameState)
             {
                 case GameState.WorldMap:
-                    main.WorldDraw(spriteBatch, gameTime);
+                    main.WorldDraw(spriteBatch,GraphicsDevice,  gameTime);
                     break;
                 case GameState.Floor:
                     main.FloorDraw(spriteBatch, GraphicsDevice ,gameTime);

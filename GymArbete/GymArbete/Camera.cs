@@ -11,10 +11,18 @@ namespace GymArbete
     {
 
 
-        public static Matrix GetMatrix(Vector2 pos)
+        public static Matrix GetMatrix(Vector2 pos, bool zoom = false)
         {
-            Matrix toReturn = Matrix.CreateTranslation(pos.X - 16, pos.Y - 16, 0);
-            return toReturn;
+            if (!zoom)
+            {
+                return Matrix.CreateTranslation(pos.X - 16, pos.Y - 16, 0);
+            }
+            else
+            {
+                return Matrix.CreateTranslation( pos.X + (0.9f * 16), pos.Y + (0.9f * 16), 0) * Matrix.CreateScale(0.9f,0.9f,1f);
+            }
+
+            
         }
     }
 }
