@@ -15,6 +15,7 @@ namespace GymArbete.Blocks
             else
             {
                 type = BlockType.Down;
+                color = Color.Red;
             }
         }
         public bool FloorUp()

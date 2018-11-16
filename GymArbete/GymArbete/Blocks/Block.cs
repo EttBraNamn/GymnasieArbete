@@ -9,7 +9,7 @@ namespace GymArbete.Blocks
     {
         public Vector2 position;
         protected BlockType type;
-        Color color;
+        protected Color color;
         protected float value;
         public Block(float value)
         {
