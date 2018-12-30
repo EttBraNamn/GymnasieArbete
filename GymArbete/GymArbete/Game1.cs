@@ -6,7 +6,7 @@ namespace GymArbete
 {
 
 
-    public enum GameState { WorldMap, Floor}
+    public enum GameState { WorldMap, Floor, Seed}
     public class Game1 : Game
     {
         GraphicsDeviceManager graphics;
@@ -60,6 +60,9 @@ namespace GymArbete
                 case GameState.Floor:
                     main.FloorUpdate(gameTime);
                     break;
+                case GameState.Seed:
+                    main.SeedUpdate();
+                    break;
             }
             main.Update(gameTime);
             
@@ -78,6 +81,9 @@ namespace GymArbete
                     break;
                 case GameState.Floor:
                     main.FloorDraw(spriteBatch, GraphicsDevice ,gameTime);
+                    break;
+                case GameState.Seed:
+                    main.SeedDraw(spriteBatch, GraphicsDevice, gameTime);
                     break;
             }
 

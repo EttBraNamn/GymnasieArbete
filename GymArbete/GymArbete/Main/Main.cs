@@ -18,8 +18,13 @@ namespace GymArbete
         public Main(int tSeed = 25)
         {
             seed = tSeed;
-            gameState = GameState.Floor;
+            gameState = GameState.WorldMap;
             player = new Player(new Vector2(1, 1));
+            MapGeneration();
+        }
+
+        private void MapGeneration()
+        {
             map = new WorldMap(6400, 3200, seed);
             worldBlocks = new Dictionary<Vector2, Block>();
             Vector2 pos = new Vector2(0, 0);
@@ -32,7 +37,6 @@ namespace GymArbete
                     worldBlocks[pos] = new Ground(pos, map.GetValue(pos / 10));
                 }
             }
-            FloorSetup(seed, 6, new Vector2());
 
         }
 
@@ -49,6 +53,119 @@ namespace GymArbete
 
         }
 
+
+        /*<summary>
+        ############################################
+        EVERYTHING RELATED TO A NEW SEED STARTS HERE
+        ############################################
+         </summary>*/
+
+        string sSeed;
+        public void SeedUpdate()
+        {
+            key = Keyboard.GetState();
+
+            Keys[] pressed = key.GetPressedKeys();
+
+            for (int i = 0; i < pressed.Length; ++i)
+            {
+                if (!SeedInput(pressed[i]))
+                {
+                    if (pressed[i] == Keys.Enter)
+                    {
+                        seed = Convert.ToInt32(sSeed);
+                        MapGeneration();
+                        gameState = GameState.WorldMap;
+                    }
+                }
+            }
+
+
+            lastKey = key;
+        }
+
+
+        private bool SeedInput(Keys k)
+        {
+            if (k == Keys.NumPad0 && lastKey.IsKeyUp(Keys.NumPad0) || k == Keys.D0 && lastKey.IsKeyUp(Keys.D0))
+            {
+                sSeed += "0";
+                return true;
+            }
+            else if (k == Keys.NumPad1 && lastKey.IsKeyUp(Keys.NumPad1) || k == Keys.D1 && lastKey.IsKeyUp(Keys.D1))
+            {
+                sSeed += "1";
+                return true;
+            }
+            else if (k == Keys.NumPad2 && lastKey.IsKeyUp(Keys.NumPad2) || k == Keys.D2 && lastKey.IsKeyUp(Keys.D2))
+            {
+                sSeed += "2";
+                return true;
+            }
+            else if (k == Keys.NumPad3 && lastKey.IsKeyUp(Keys.NumPad3) || k == Keys.D3 && lastKey.IsKeyUp(Keys.D3))
+            {
+                sSeed += "3";
+                return true;
+            }
+            else if (k == Keys.NumPad4 && lastKey.IsKeyUp(Keys.NumPad4) || k == Keys.D4 && lastKey.IsKeyUp(Keys.D4))
+            {
+                sSeed += "4";
+                return true;
+            }
+            else if (k == Keys.NumPad5 && lastKey.IsKeyUp(Keys.NumPad5) || k == Keys.D5 && lastKey.IsKeyUp(Keys.D5))
+            {
+                sSeed += "5";
+                return true;
+            }
+            else if (k == Keys.NumPad6 && lastKey.IsKeyUp(Keys.NumPad6) || k == Keys.D6 && lastKey.IsKeyUp(Keys.D6))
+            {
+                sSeed += "6";
+                return true;
+            }
+            else if (k == Keys.NumPad7 && lastKey.IsKeyUp(Keys.NumPad7) || k == Keys.D7 && lastKey.IsKeyUp(Keys.D7))
+            {
+                sSeed += "7";
+                return true;
+            }
+            else if (k == Keys.NumPad8 && lastKey.IsKeyUp(Keys.NumPad8) || k == Keys.D8 && lastKey.IsKeyUp(Keys.D8))
+            {
+                sSeed += "8";
+                return true;
+            }
+            else if (k == Keys.NumPad9 && lastKey.IsKeyUp(Keys.NumPad9) || k == Keys.D9 && lastKey.IsKeyUp(Keys.D9))
+            {
+                sSeed += "9";
+                return true;
+            }
+            else if (k == Keys.Back && lastKey.IsKeyUp(Keys.Back))
+            {
+                if (sSeed.Length > 0)
+                {
+                    sSeed = sSeed.Remove(sSeed.Length - 1, 1);
+                }
+            }
+
+            return false;
+        }
+
+        public void SeedDraw(SpriteBatch spriteBatch, GraphicsDevice graphics, GameTime gameTime)
+        {
+            WorldDraw(spriteBatch, graphics, gameTime);
+            spriteBatch.Begin();
+
+            Rectangle outer = new Rectangle((graphics.DisplayMode.Width/2) - 490, (graphics.DisplayMode.Height/2) - 290, 300, 100);
+            spriteBatch.Draw(Textures.White(), outer, Color.Black);
+            outer.X += 10;
+            outer.Width -= 20;
+            outer.Height -= 20;
+            outer.Y += 10;
+            spriteBatch.Draw(Textures.White(), outer, Color.White);
+            if (sSeed.Length > 0)
+            {
+                spriteBatch.DrawString(Textures.BigFont(), sSeed, new Vector2(outer.X + 5, outer.Y + 10), Color.Black);
+            }
+            spriteBatch.End();
+        }
 
         /*<summary>
         ##############################################
@@ -68,6 +185,7 @@ namespace GymArbete
             floor = floors.GetFloor(floorNum);
             player.NewFloor();
         }
+
 
 
         //Moves the character up or down a floor depending on what button is pressed
@@ -193,8 +311,19 @@ namespace GymArbete
                 {
                     FloorSetup(seed, worldBlocks[player.GetWorldPosition()].GetValue(), player.GetWorldPosition());
                     gameState = GameState.Floor;
+                    continue;
                 }
-                CheckAndMove(pressed[i]);
+                else if (pressed[i] == Keys.Space)
+                {
+                    gameState = GameState.Seed;
+                    sSeed = "";
+                    continue;
+                }
+                else
+                {
+                    CheckAndMove(pressed[i]);
+                    continue;
+                }
             }
             lastKey = Keyboard.GetState();
         }
@@ -214,7 +343,6 @@ namespace GymArbete
                 block.Value.Draw(spriteBatch);
             }
             player.WorldDraw(spriteBatch);
-            spriteBatch.DrawString(Textures.Font(), Convert.ToString(map.GetValue(player.GetWorldPosition() / 10)), new Vector2(25, 25), Color.White);
             spriteBatch.End();
         }
 
