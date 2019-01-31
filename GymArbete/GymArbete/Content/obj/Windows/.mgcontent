@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SourceFileCollection xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Profile>Reach</Profile>
+  <Platform>Windows</Platform>
+  <Config />
+  <SourceFiles>
+    <File>C:/Users/anton.johansson26/Documents/GitHub/GymnasieArbete/GymArbete/GymArbete/Content/wall.png</File>
+    <File>C:/Users/anton.johansson26/Documents/GitHub/GymnasieArbete/GymArbete/GymArbete/Content/floor.png</File>
+    <File>C:/Users/anton.johansson26/Documents/GitHub/GymnasieArbete/GymArbete/GymArbete/Content/player.png</File>
+    <File>C:/Users/anton.johansson26/Documents/GitHub/GymnasieArbete/GymArbete/GymArbete/Content/font.spritefont</File>
+    <File>C:/Users/anton.johansson26/Documents/GitHub/GymnasieArbete/GymArbete/GymArbete/Content/carpet.png</File>
+    <File>C:/Users/anton.johansson26/Documents/GitHub/GymnasieArbete/GymArbete/GymArbete/Content/Staircase.png</File>
+    <File>C:/Users/anton.johansson26/Documents/GitHub/GymnasieArbete/GymArbete/GymArbete/Content/BigFont.spritefont</File>
+    <File>C:/Users/anton.johansson26/Documents/GitHub/GymnasieArbete/GymArbete/GymArbete/Content/white.png</File>
+  </SourceFiles>
+</SourceFileCollection>
