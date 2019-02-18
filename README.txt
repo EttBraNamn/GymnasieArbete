@@ -1,9 +1,10 @@
 ----------------------------
 ---Hur man startar spelet---
 ----------------------------
-Spelet startar för alla med operativsystemet Windows 10
+Spelet är gjort för operativsystemet Windows 10. 
+Ifall du använder ett tidigare Windows operativsystem så kanske det fungera, om inte så går det att kompilera spelet själv.
 
-Speler hittas i mappen Spel --> x86 --> Release.
+Spelet hittas i mappen Spel --> x86 --> Release.
 
 I mappen finns filen GymArbete vilket är exe-filen till spelet.
 
@@ -15,19 +16,29 @@ För att avsluta spelet så är det bara att trycka på escape.
 ---------------------------
 Spelet spelas med hjälp utav en numpad. 
 
-Med denna numpad kan man då gå åt åtta olika direktioner. 
-Sju är upp åt vänster, fyra är vänster, ett är neråt vänster. Alla andra siffrorna följer samma logik
+Med denna numpad kan man gå åt åtta olika direktioner. 
+Sju är upp åt vänster, fyra är vänster, ett är neråt vänster, alla andra siffrorna följer samma logik
+
+
+7	8	9
+ \      |      /
+
+4 <-           ->6 
+  
+  /     |      \
+1       2       3
+
 
 Om spelaren är på "världskartan" så kan de trycka på mellanslag för att få fram en ruta.
 I rutan kan man skriva in siffror som är en seed(om du vill veta vad en seed är står det i gymnasiearbetet).
 Ett tryck på enter finaliserar seeden och en ny värld laddas fram. 
-Samma värld genereras med samma seed varje gång. 
+Samma värld genereras med samma seed. 
 
 För att gå från världkartan till den rumbaserade delen av spelet så är det bara att trycka på numpadens plusknapp.
 
 I den rumbaserade delen av spelet så går man runt på samma sätt.
 
-Skillnaden in detta fall är att det finns trappor spelaren kan gå upp och ner genom.
+Skillnaden in detta fall är att det finns trappor spelaren kan gå upp och ner i.
 
 För att gå upp en våning trycker man på plusknappen, för att gå ner används minus.
 Detta fungerar endast om spelkaraktären står på rätt sorts trappa.
