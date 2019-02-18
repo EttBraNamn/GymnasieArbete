@@ -57,4 +57,6 @@ Mappen för all källkod hittas i GymArbete --> GymArbete.
 
 Alla .cs filer i den mappen är dokument jag själv skrivit. 
 
-Sub-mapparna: Worldloading, Main och Blocks; innehåller alla filer enbart skrivna av mig. 
+Sub-mapparna: Worldloading, Main och Blocks; innehåller alla filer enbart skrivna av mig.
+
+I sub-mappen Content hittas alla bildfiler och typsnitt projektet använder sig av.
